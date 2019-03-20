@@ -7,8 +7,10 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table
+@Table(name = "Customer")
 public class Customer implements Serializable {
+
+    private static final long serialVersionUID = 2830595585754905369L;
 
     @Id
     @Column

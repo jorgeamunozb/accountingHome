@@ -1,25 +1,33 @@
 package co.com.ceiba;
 
-import co.com.ceiba.model.service.DatabaseSingletonService;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import co.com.ceiba.model.util.HibernateUtil;
+import co.com.ceiba.model.Customer;
+import org.hibernate.Session;
 
 public class Main {
 
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
         /* Creation of the statement instance */
-        DatabaseSingletonService.getInstance();
-        Statement state = DatabaseSingletonService.getStatement();
-        /* put your SQL code in the variable sqlString */
-        String sqlString = "SELECT 1 + 1;";
-        ResultSet result = state.executeQuery(sqlString);
-        while (result.next()) {
-            String resultString = result.getString(1);
-            System.out.println(resultString);
-        }
+        //DatabaseSingletonService.getInstance()
+
+        Customer customer = new Customer(1, "Jorge", "Muñoz");
+
+        HibernateUtil.getInstance();
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        session.save(customer);
+
+        session.getTransaction().commit();
+
+        System.out.println("Connected: " + session.isConnected());
+        System.out.println("Open: " + session.isOpen());
+
+        session.close();
+        System.out.println("Connected: " + session.isConnected());
+        System.out.println("Open: " + session.isOpen());
+
     }
 
 }
